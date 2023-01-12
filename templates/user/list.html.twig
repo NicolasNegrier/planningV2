@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les agents
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des agents enregistrés</h1>
+
+	<a href="/admin/user/create" class="btn btn-primary">Ajouter un agent</a>
+
+	<ul>
+		{% for user in users %}
+			<li>{{ user.name }}
+				{{ user.firstname}}</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ day.date|date("d/m/Y")}}
+{% endblock %}
+
+{% block body %}
+	<h1>Planning du
+		{{ day.name}}
+		{{ day.date|date("d/m/Y")}}</h1>
+
+	<h2>Les créneaux et agents disponibles pour le jour</h2>
+
+	<div class="row">
+		<div class="col-4">
+			{% for slot in day.slots %}
+				<div>
+					{{ slot.name }}
+				</div>
+			{% endfor %}
+		</div>
+		<div class="col-4">
+			{% for user in day.users %}
+				<div>
+					<a href="/day/{{ day.id }}/{{ user.id}}">
+						{{ user.name }}
+						{{ user.firstname }}
+					</a>
+
+					<p>Liste des jours depuis la table user</p>
+					<ul>
+						{% for userDays in user.days %}
+							<li>{{ userDays.date|date("d/m/Y")}}</li>
+						{% endfor %}
+					</ul>
+
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

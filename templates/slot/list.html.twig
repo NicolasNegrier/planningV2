@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les créneaux
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des créneaux enregistrés</h1>
+
+	<a href="/admin/slot/create" class="btn btn-primary">Ajouter un créneau</a>
+
+	<ul>
+		{% for slot in slots %}
+			<li>{{ slot.name }}</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}

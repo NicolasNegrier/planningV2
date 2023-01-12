@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'un nouveau créneau
+{% endblock %}
+
+{% block body %}
+	<h1>Création d'un nouveau créneau</h1>
+
+	<div class="row">
+		{{ form_start(formView) }}
+		{{ form_errors(formView) }}
+		{{ form_widget(formView) }}
+		<button type="submit" class="btn btn-primary">
+			Créer le créneau
+		</button>
+		{{ form_end(formView) }}
+	</div>
+{% endblock %}

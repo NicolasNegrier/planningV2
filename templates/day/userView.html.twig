@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}planning de l'agent
+	{{ user.name}}
+{% endblock %}
+
+{% block body %}
+
+	<h1>Planning de l'agent
+		{{ user.name|upper }}
+		du
+		{{ day.date|date("d/m/Y")}}</h1>
+
+	<a href="/admin/day/create" class="btn btn-primary">Ajouter un creneau</a>
+
+	<h2>Listes des créneaux de la journée</h2>
+	<ul>
+		{% for slot in day.slots %}
+			<li>
+				{{ slot.name }}
+			</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}
