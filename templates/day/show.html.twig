@@ -10,6 +10,7 @@
 		{{ day.date|date("d/m/Y")}}</h1>
 
 	<h2>Les créneaux et agents disponibles pour le jour</h2>
+	<a href="/day/{{day.id}}/edit" class="btn btn-primary">Modifier le jour</a>
 
 	<div class="row">
 		<div class="col-4">
@@ -34,6 +35,13 @@
 						{% endfor %}
 					</ul>
 
+				</div>
+			{% endfor %}
+		</div>
+		<div class="col-4">
+			{% for task in day.tasks %}
+				<div>
+					{{ task.name }}
 				</div>
 			{% endfor %}
 		</div>

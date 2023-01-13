@@ -11,13 +11,16 @@
 		du
 		{{ day.date|date("d/m/Y")}}</h1>
 
-	<a href="/admin/day/create" class="btn btn-primary">Ajouter un creneau</a>
+	<a href="/day/{{ day.id }}/{{ user.id }}/edit" class="btn btn-primary">Attribuer créneaux et postes</a>
 
 	<h2>Listes des créneaux de la journée</h2>
 	<ul>
-		{% for slot in day.slots %}
+		{% for slot in user.slots %}
 			<li>
 				{{ slot.name }}
+				{% for task in user.tasks %}
+					{{ task.name }}
+				{% endfor %}
 			</li>
 		{% endfor %}
 	</ul>

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les postes
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des postes enregistrés</h1>
+
+	<a href="/admin/task/create" class="btn btn-primary">Ajouter un poste</a>
+
+	<ul>
+		{% for task in tasks %}
+			<li>{{ task.name }}</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Day;
 use App\Entity\Slot;
+use App\Entity\Task;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -42,6 +43,14 @@ class DayType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'class' => Slot::class,
+                'choice_label' => 'name'
+            ])
+            ->add('tasks', EntityType::class, [
+                'label' => 'Les creneaux',
+                'placeholder' => '-- Choisir les creneaux --',
+                'expanded' => true,
+                'multiple' => true,
+                'class' => Task::class,
                 'choice_label' => 'name'
             ]);
     }

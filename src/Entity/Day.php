@@ -28,10 +28,14 @@ class Day
     #[ORM\ManyToMany(targetEntity: Slot::class, inversedBy: 'days')]
     private Collection $slots;
 
+    #[ORM\ManyToMany(targetEntity: Task::class, inversedBy: 'days')]
+    private Collection $tasks;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->slots = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +111,30 @@ class Day
     public function removeSlot(Slot $slot): self
     {
         $this->slots->removeElement($slot);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Task>
+     */
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
+    }
+
+    public function addTask(Task $task): self
+    {
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+        }
+
+        return $this;
+    }
+
+    public function removeTask(Task $task): self
+    {
+        $this->tasks->removeElement($task);
 
         return $this;
     }

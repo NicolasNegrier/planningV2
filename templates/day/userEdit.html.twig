@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attribution créneaux et poste
+{% endblock %}
+
+{% block body %}
+	<h1>Attribution de créneaux et poste à l'agent
+		{{ user.name }}</h1>
+	<div class="row">
+		{{ form_start(formView) }}
+		{{ form_errors(formView) }}
+		{{ form_widget(formView) }}
+		<button type="submit" class="btn btn-primary">
+			Attribuer
+		</button>
+		{{ form_end(formView) }}
+	</div>
+{% endblock %}

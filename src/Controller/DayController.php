@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Day;
 use App\Form\DayType;
+use App\Form\UserType;
 use App\Repository\DayRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,8 +34,33 @@ class DayController extends AbstractController
         ]);
     }
 
+    #[Route('/day/{id}/edit', name: 'day_edit')]
+    public function edit($id, DayRepository $dayRepository, Request $request, EntityManagerInterface $em): Response
+    {
+        $day = $dayRepository->find($id);
+
+        $form = $this->createForm(DayType::class, $day);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->flush();
+
+            return $this->redirectToRoute('day_show', [
+                'id' => $day->getId()
+            ]);
+        }
+
+        $formView = $form->createView();
+
+        return $this->render('day/edit.html.twig', [
+            'formView' => $formView,
+            'day' => $day
+        ]);
+    }
+
     #[Route('/day/{day_id}/{user_id}', name: 'day_userView')]
-    public function user($day_id, $user_id, DayRepository $dayRepository, UserRepository $userRepository): Response
+    public function userView($day_id, $user_id, DayRepository $dayRepository, UserRepository $userRepository): Response
     {
         $day = $dayRepository->find($day_id);
 
@@ -43,6 +69,37 @@ class DayController extends AbstractController
         return $this->render('day/userView.html.twig', [
             'day' => $day,
             'user' => $user
+        ]);
+    }
+
+    #[Route('/day/{day_id}/{user_id}/edit', name: 'day_userEdit')]
+    public function userEdit($day_id, $user_id, DayRepository $dayRepository, UserRepository $userRepository, Request $request, EntityManagerInterface $em): Response
+    {
+        $day = $dayRepository->find($day_id);
+
+        $user = $userRepository->find($user_id);
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->flush();
+
+            return $this->redirectToRoute('day_userView', [
+                'day' => $day,
+                'user' => $user,
+                'day_id' => $day->getId(),
+                'user_id' => $user->getId(),
+            ]);
+        }
+
+        $formView = $form->createView();
+
+        return $this->render('day/userEdit.html.twig', [
+            'day' => $day,
+            'user' => $user,
+            'formView' => $formView
         ]);
     }
 
