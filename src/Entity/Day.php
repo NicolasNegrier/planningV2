@@ -31,11 +31,15 @@ class Day
     #[ORM\ManyToMany(targetEntity: Task::class, inversedBy: 'days')]
     private Collection $tasks;
 
+    #[ORM\OneToMany(mappedBy: 'day', targetEntity: DailyTask::class)]
+    private Collection $dailyTasks;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->slots = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->dailyTasks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,6 +139,36 @@ class Day
     public function removeTask(Task $task): self
     {
         $this->tasks->removeElement($task);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DailyTask>
+     */
+    public function getDailyTasks(): Collection
+    {
+        return $this->dailyTasks;
+    }
+
+    public function addDailyTask(DailyTask $dailyTask): self
+    {
+        if (!$this->dailyTasks->contains($dailyTask)) {
+            $this->dailyTasks->add($dailyTask);
+            $dailyTask->setDay($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDailyTask(DailyTask $dailyTask): self
+    {
+        if ($this->dailyTasks->removeElement($dailyTask)) {
+            // set the owning side to null (unless already changed)
+            if ($dailyTask->getDay() === $this) {
+                $dailyTask->setDay(null);
+            }
+        }
 
         return $this;
     }

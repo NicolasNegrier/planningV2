@@ -46,8 +46,8 @@ class DayType extends AbstractType
                 'choice_label' => 'name'
             ])
             ->add('tasks', EntityType::class, [
-                'label' => 'Les creneaux',
-                'placeholder' => '-- Choisir les creneaux --',
+                'label' => 'Les postes',
+                'placeholder' => '-- Choisir les postes --',
                 'expanded' => true,
                 'multiple' => true,
                 'class' => Task::class,

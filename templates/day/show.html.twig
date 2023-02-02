@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}
 	{{ day.date|date("d/m/Y")}}
@@ -42,9 +42,61 @@
 			{% for task in day.tasks %}
 				<div>
 					{{ task.name }}
+
 				</div>
 			{% endfor %}
 		</div>
 	</div>
 
+{% endblock %} #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ day.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex flex-row justify-content-between align-items-center">
+		<h1>Planning du
+			{{ day.name}}
+			{{ day.date|date("d/m/Y")}}</h1>
+	</div>
+	<a href="{{ path('day_edit', {'id': day.id}) }}" class="btn btn-primary align-self-center">Modifier le jour</a>
+	<a href="{{ path('day_taskShow', {'day_id': day.id}) }}" class="btn btn-primary align-self-center">Gestion des postes du jour</a>
+	<div class="card_container d-flex flex-row justify-content-end position-sticky top-0">
+
+		{% for slot in day.slots %}
+			{# boucle pour affichage des jours de la semaine,  decoupage de mon string du creneau pour un affichage en colonne #}
+			{% set hours = slot.name|split('/') %}
+			<div class="d-flex flex-column case align-items-center border">
+				<p class="m-0">{{ hours[0] }}</p>
+				<p class="m-0">{{ hours[1] }}</p>
+				<p class="card-text"></p>
+			</div>
+		{% endfor %}
+
+	</div>
+	<div class="card_container">
+
+		{% for user in day.users %}
+			{# Boucle d'affichage des utilisateurs en par un #}
+			<div class="user_time d-flex flex-row">
+				<div class="user_cel">
+					<h6 class="mb-1">
+						<a href="/day/{{ day.id }}/{{ user.id }}">
+							{{ user.name }}
+							{{ user.firstname }}</a>
+					</h6>
+				</div>
+
+				<div class="user_slots d-flex flex-row justify-content-end">
+					{# boucle pour recupérer chaque créneau horaire du planning et afficher une case avec une condition pour l'ajout d'une classe #}
+					{# si le creneau du user = le creneau ET que le jour du creneau user = le jour du creneau ET la semaine du creneau user = la semain du jour alors on applique un background noir#}
+						{% for daySlot in day.slots %}<div class="case slots_case {% for userSlot in user.slots %}{% endfor %}"> </div>
+					{% endfor %}
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
 {% endblock %}

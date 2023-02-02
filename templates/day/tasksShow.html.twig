@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les postes du jour
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des postes du
+		{{ day.name }}
+		{{ day.date|date("d/m/Y")}}</h1>
+
+	<ul>
+		{% for task in day.tasks %}
+			<li>
+				<a href="{{ path('day_taskAssign', {'day_id': day.id, 'task_id': task.id}) }}">{{ task.name }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}

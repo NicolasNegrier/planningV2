@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiche agent
+{% endblock %}
+
+{% block body %}
+
+	<h1>Fiche de l'agent
+		{{ user.name }}
+		{{ user.name }}</h1>
+
+	<a href="/admin/user/create" class="btn btn-primary">Ajouter un agent</a>
+
+	<h2>Les créneaux de l'agent</h2>
+	<ul>
+		{% for day in user.days %}
+			<li>
+				<div>{{ day.name }}
+					{{day.date|date("d/m/Y")}}
+				</div>
+				<div>
+					{% for slot in day.slots %}
+						{{ slot.name }}
+					{% endfor %}
+				</div>
+				<div>
+					{% for slotDay in day.slots %}
+						{% for userSlot in slotDay.users %}
+							{% if user == userSlot %}
+								{{slotDay.name}}
+							{% endif %}
+						{% endfor %}
+					{% endfor %}
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}

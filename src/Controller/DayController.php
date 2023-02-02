@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\DailyTask;
 use App\Entity\Day;
+use App\Form\DailyTaskType;
 use App\Form\DayType;
 use App\Form\UserType;
+use App\Repository\DailyTaskRepository;
 use App\Repository\DayRepository;
+use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,6 +62,49 @@ class DayController extends AbstractController
             'day' => $day
         ]);
     }
+
+
+    #[Route('/day/{day_id}/task', name: 'day_taskShow')]
+    public function taskShow($day_id, DayRepository $dayRepository): Response
+    {
+        $day = $dayRepository->find($day_id);
+
+        return $this->render('day/tasksShow.html.twig', [
+            'day' => $day
+        ]);
+    }
+
+
+    #[Route('/day/{day_id}/{task_id}/assign', name: 'day_taskAssign')]
+    public function taskAssign($day_id, $task_id, DayRepository $dayRepository, TaskRepository $taskRepository, DailyTaskRepository $dailyTaskRepository, Request $request, EntityManagerInterface $em): Response
+    {
+        $dailyTask = $dailyTaskRepository->findOneBy([
+            'day' => $day_id,
+            'task' => $task_id
+        ]);
+
+        if (!$dailyTask) {
+            $dailyTask = new DailyTask;
+            $day = $dayRepository->find($day_id);
+            $task = $taskRepository->find($task_id);
+            $dailyTask->setDay($day)
+                ->setTask($task);
+
+            $em->persist($dailyTask);
+        }
+
+        // $form = $this->createForm(DailyTaskType::class, $dailyTask);
+
+        // $form->handleRequest($request);
+
+        // $formView = $form->createView();
+
+        return $this->render('day/taskAssign.html.twig', [
+            'dailyTask' => $dailyTask,
+            // 'formView' => $formView
+        ]);
+    }
+
 
     #[Route('/day/{day_id}/{user_id}', name: 'day_userView')]
     public function userView($day_id, $user_id, DayRepository $dayRepository, UserRepository $userRepository): Response

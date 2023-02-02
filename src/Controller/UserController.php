@@ -23,6 +23,16 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/user/{id}', name: 'user_show')]
+    public function show($id, UserRepository $userRepository): Response
+    {
+        $user = $userRepository->find($id);
+
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     #[Route('admin/user/create', name: 'user_create')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
